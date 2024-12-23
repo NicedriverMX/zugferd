@@ -671,6 +671,122 @@ class ZugferdDocumentBuilder extends ZugferdDocument
     }
 
     /**
+     * Sets the Information about the buyers's tax representative BG-X-54
+     *
+     * @param  string      $name        __BT-X-362, From EXTENDED__ The full name of the buyer's tax representative party
+     * @param  string|null $id          __BT-X-364, From EXTENDED__ A previously exchanged assigned identifier of the business partne
+     * @param  string|null $role        __BT-X-546, From EXTENDED__ A code to qualify the role of the party (to be choosen fom UNTDID 3035)
+     * @return ZugferdDocumentBuilder
+     */
+    public function setDocumentBuyerTaxRepresentativeTradeParty(string $name, ?string $id = null, ?string $role = null): ZugferdDocumentBuilder
+    {
+        $buyerTaxRepresentativeTradeParty = $this->getObjectHelper()->getTradeParty($name, $id, $role);
+        $this->getObjectHelper()->tryCall($this->headerTradeAgreement, "setBuyerTaxRepresentativeTradeParty", $buyerTaxRepresentativeTradeParty);
+        return $this;
+    }
+
+    /**
+     * Add a global id for the buyer's Tax representative party
+     *
+     * @param  string|null $globalID      __BT-X-365, From EXTENDED__ GlobalID, if a global identifier exists and can be determined in the @schemeID, otherwise use ID
+     * @param  string|null $globalIDType  __BT-X-365-0, From EXTENDED__ If used, the identification scheme shall be chosen from the entries of the list published by the ISO/IEC 6523 maintenance agency.
+     * @return ZugferdDocumentBuilder
+     */
+    public function addDocumentBuyerTaxRepresentativeGlobalId(?string $globalID = null, ?string $globalIDType = null): ZugferdDocumentBuilder
+    {
+        $taxrepresentativeTradeParty = $this->getObjectHelper()->tryCallAndReturn($this->headerTradeAgreement, "getBuyerTaxRepresentativeTradeParty");
+        $this->getObjectHelper()->tryCall($taxrepresentativeTradeParty, "addToGlobalID", $this->getObjectHelper()->getIdType($globalID, $globalIDType));
+        return $this;
+    }
+
+    /**
+     * Add Tax registration to buyer's tax representative party
+     *
+     * @param  string|null $taxRegType __BT-X-367-0, From EXTENDED__ Type of tax number (VA = Sales tax identification number)
+     * @param  string|null $taxRegId   __BT-X-367, From EXTENDED__ The VAT identifier of the BUYER's tax representative party.
+     * @return ZugferdDocumentBuilder
+     */
+    public function addDocumentBuyerTaxRepresentativeTaxRegistration(?string $taxRegType = null, ?string $taxRegId = null): ZugferdDocumentBuilder
+    {
+        $taxrepresentativeTradeParty = $this->getObjectHelper()->tryCallAndReturn($this->headerTradeAgreement, "getBuyerTaxRepresentativeTradeParty");
+        $taxReg = $this->getObjectHelper()->getTaxRegistrationType($taxRegType, $taxRegId);
+        $this->getObjectHelper()->tryCall($taxrepresentativeTradeParty, "addToSpecifiedTaxRegistration", $taxReg);
+        return $this;
+    }
+
+    /**
+     * Sets the postal address of the buyer's tax representative party 
+     *
+     * @param  string|null $lineOne     __BT-X-383, From EXTENDED__ The main line in the sellers tax agent address. This is usually the street name and house number or the post office box
+     * @param  string|null $lineTwo     __BT-X-384, From EXTENDED__ Line 2 of the sellers tax agent address. This is an additional address line in an address that can be used to provide additional details in addition to the main line
+     * @param  string|null $lineThree   __BT-X-385, From EXTENDED__ Line 3 of the sellers tax agent address. This is an additional address line in an address that can be used to provide additional details in addition to the main line
+     * @param  string|null $postCode    __BT-X-382, From EXTENDED__ Identifier for a group of properties, such as a zip code
+     * @param  string|null $city        __BT-X-386, From EXTENDED__ Usual name of the city or municipality in which the sellers tax agent address is located
+     * @param  string|null $country     __BT-X-387, From EXTENDED__ Code used to identify the country. If no tax agent is specified, this is the country in which the sales tax is due. The lists of approved countries are maintained by the EN ISO 3166-1 Maintenance Agency “Codes for the representation of names of countries and their subdivisions”
+     * @param  string|null $subDivision __BT-X-388, From EXTENDED__ The sellers tax agent state
+     * @return ZugferdDocumentBuilder
+     */
+    public function setDocumentBuyerTaxRepresentativeAddress(?string $lineOne = null, ?string $lineTwo = null, ?string $lineThree = null, ?string $postCode = null, ?string $city = null, ?string $country = null, ?string $subDivision = null): ZugferdDocumentBuilder
+    {
+        $taxrepresentativeTradeParty = $this->getObjectHelper()->tryCallAndReturn($this->headerTradeAgreement, "getBuyerTaxRepresentativeTradeParty");
+        $address = $this->getObjectHelper()->getTradeAddress($lineOne, $lineTwo, $lineThree, $postCode, $city, $country, $subDivision);
+        $this->getObjectHelper()->tryCall($taxrepresentativeTradeParty, "setPostalTradeAddress", $address);
+        return $this;
+    }
+
+    /**
+     * Set legal organisation of the buyer's tax representative party
+     *
+     * @param  string|null $legalOrgId    __BT-, From __ An identifier issued by an official registrar that identifies the seller tax agent as a legal entity or legal person.
+     * @param  string|null $legalOrgType  __BT-, From __ The identifier for the identification scheme of the legal registration of the sellers tax agent. If the identification scheme is used, it must be selected from  ISO/IEC 6523 list
+     * @param  string|null $legalOrgName  __BT-, From __ A name by which the sellers tax agent is known, if different from the  sellers tax agent name (also known as the company name)
+     * @return ZugferdDocumentBuilder
+     */
+    public function setDocumentBuyerTaxRepresentativeLegalOrganisation(?string $legalOrgId, ?string $legalOrgType, ?string $legalOrgName): ZugferdDocumentBuilder
+    {
+        $taxrepresentativeTradeParty = $this->getObjectHelper()->tryCallAndReturn($this->headerTradeAgreement, "getBuyerTaxRepresentativeTradeParty");
+        $legalOrg = $this->getObjectHelper()->getLegalOrganization($legalOrgId, $legalOrgType, $legalOrgName);
+        $this->getObjectHelper()->tryCall($taxrepresentativeTradeParty, "setSpecifiedLegalOrganization", $legalOrg);
+        return $this;
+    }
+
+    /**
+     * Set detailed information on the buyers's tax representative party contact person BG-X-55
+     *
+     * @param  string|null $contactPersonName      __BT-X-369, From EXTENDED__ Such as personal name, name of contact person or department or office
+     * @param  string|null $contactDepartmentName  __BT-X-370, From EXTENDED__ If a contact person is specified, either the name or the department must be transmitted.
+     * @param  string|null $contactPhoneNo         __BT-X-372, From EXTENDED__ A telephone number for the contact point
+     * @param  string|null $contactFaxNo           __BT-X-373, From EXTENDED__ A fax number of the contact point
+     * @param  string|null $contactEmailAddress    __BT-X-374, From EXTENDED__ An e-mail address of the contact point
+     * @return ZugferdDocumentBuilder
+     */
+    public function setDocumentBuyerTaxRepresentativeContact(?string $contactPersonName, ?string $contactDepartmentName, ?string $contactPhoneNo, ?string $contactFaxNo, ?string $contactEmailAddress): ZugferdDocumentBuilder
+    {
+        $taxrepresentativeTradeParty = $this->getObjectHelper()->tryCallAndReturn($this->headerTradeAgreement, "getBuyerTaxRepresentativeTradeParty");
+        $contact = $this->getObjectHelper()->getTradeContact($contactPersonName, $contactDepartmentName, $contactPhoneNo, $contactFaxNo, $contactEmailAddress);
+        $this->getObjectHelper()->tryCallIfMethodExists($taxrepresentativeTradeParty, "addToDefinedTradeContact", "setDefinedTradeContact", [$contact], $contact);
+        return $this;
+    }
+
+    /**
+     * Add an (additional) contact to the buyers's tax representative party (EXTENDED Profile only)
+     *
+     * @param  string|null $contactPersonName      __BT-X-369, From EXTENDED__ Such as personal name, name of contact person or department or office
+     * @param  string|null $contactDepartmentName  __BT-X-370, From EXTENDED__ If a contact person is specified, either the name or the department must be transmitted.
+     * @param  string|null $contactPhoneNo         __BT-X-372, From EXTENDED__ A telephone number for the contact point
+     * @param  string|null $contactFaxNo           __BT-X-373, From EXTENDED__ A fax number of the contact point
+     * @param  string|null $contactEmailAddress    __BT-X-374, From EXTENDED__ An e-mail address of the contact point
+     * @return ZugferdDocumentBuilder
+     */
+    public function addDocumentBuyerTaxRepresentativeContact(?string $contactPersonName, ?string $contactDepartmentName, ?string $contactPhoneNo, ?string $contactFaxNo, ?string $contactEmailAddress): ZugferdDocumentBuilder
+    {
+        $taxrepresentativeTradeParty = $this->getObjectHelper()->tryCallAndReturn($this->headerTradeAgreement, "getBuyerTaxRepresentativeTradeParty");
+        $contact = $this->getObjectHelper()->getTradeContact($contactPersonName, $contactDepartmentName, $contactPhoneNo, $contactFaxNo, $contactEmailAddress);
+        $this->getObjectHelper()->tryCall($taxrepresentativeTradeParty, "addToDefinedTradeContact", $contact);
+        return $this;
+    }
+
+    /**
      * Sets the Information about the seller's tax representative
      *
      * @param  string      $name        __BT-62, From BASIC WL__ The full name of the seller's tax agent
@@ -785,7 +901,7 @@ class ZugferdDocumentBuilder extends ZugferdDocument
         $this->getObjectHelper()->tryCall($taxrepresentativeTradeParty, "addToDefinedTradeContact", $contact);
         return $this;
     }
-
+    
     /**
      * Detailed information on the deviating end user (general informaton)
      *
