@@ -717,13 +717,13 @@ class ZugferdDocumentBuilder extends ZugferdDocument
     /**
      * Sets the postal address of the buyer's tax representative party 
      *
-     * @param  string|null $lineOne     __BT-X-383, From EXTENDED__ The main line in the sellers tax agent address. This is usually the street name and house number or the post office box
+     * @param  string|null $lineOne     __BT-X-383, From EXTENDED__ The main line in the buyers tax agent address. This is usually the street name and house number or the post office box
      * @param  string|null $lineTwo     __BT-X-384, From EXTENDED__ Line 2 of the sellers tax agent address. This is an additional address line in an address that can be used to provide additional details in addition to the main line
      * @param  string|null $lineThree   __BT-X-385, From EXTENDED__ Line 3 of the sellers tax agent address. This is an additional address line in an address that can be used to provide additional details in addition to the main line
      * @param  string|null $postCode    __BT-X-382, From EXTENDED__ Identifier for a group of properties, such as a zip code
-     * @param  string|null $city        __BT-X-386, From EXTENDED__ Usual name of the city or municipality in which the sellers tax agent address is located
+     * @param  string|null $city        __BT-X-386, From EXTENDED__ Usual name of the city or municipality in which the buyers tax representative party address is located
      * @param  string|null $country     __BT-X-387, From EXTENDED__ Code used to identify the country. If no tax agent is specified, this is the country in which the sales tax is due. The lists of approved countries are maintained by the EN ISO 3166-1 Maintenance Agency “Codes for the representation of names of countries and their subdivisions”
-     * @param  string|null $subDivision __BT-X-388, From EXTENDED__ The sellers tax agent state
+     * @param  string|null $subDivision __BT-X-388, From EXTENDED__ The buyers tax representative party state
      * @return ZugferdDocumentBuilder
      */
     public function setDocumentBuyerTaxRepresentativeAddress(?string $lineOne = null, ?string $lineTwo = null, ?string $lineThree = null, ?string $postCode = null, ?string $city = null, ?string $country = null, ?string $subDivision = null): ZugferdDocumentBuilder
@@ -737,9 +737,9 @@ class ZugferdDocumentBuilder extends ZugferdDocument
     /**
      * Set legal organisation of the buyer's tax representative party
      *
-     * @param  string|null $legalOrgId    __BT-, From __ An identifier issued by an official registrar that identifies the seller tax agent as a legal entity or legal person.
-     * @param  string|null $legalOrgType  __BT-, From __ The identifier for the identification scheme of the legal registration of the sellers tax agent. If the identification scheme is used, it must be selected from  ISO/IEC 6523 list
-     * @param  string|null $legalOrgName  __BT-, From __ A name by which the sellers tax agent is known, if different from the  sellers tax agent name (also known as the company name)
+     * @param  string|null $legalOrgId    __BT-, From __ An identifier issued by an official registrar that identifies the buyer's tax agent as a legal entity or legal person.
+     * @param  string|null $legalOrgType  __BT-, From __ The identifier for the identification scheme of the legal registration of the buyers tax agent. If the identification scheme is used, it must be selected from  ISO/IEC 6523 list
+     * @param  string|null $legalOrgName  __BT-, From __ A name by which the buyers tax agent is known, if different from the buyers tax agent name (also known as the company name)
      * @return ZugferdDocumentBuilder
      */
     public function setDocumentBuyerTaxRepresentativeLegalOrganisation(?string $legalOrgId, ?string $legalOrgType, ?string $legalOrgName): ZugferdDocumentBuilder
